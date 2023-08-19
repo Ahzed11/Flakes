@@ -2,10 +2,10 @@ import { Link } from './expr';
 import { Token } from './token';
 
 export abstract class Stmt {
-  public abstract accept<TR>(visitor: IVisitor<TR>): TR;
+  public abstract accept<TR>(visitor: StmtVisitor<TR>): TR;
 }
 
-export interface IVisitor<TR> {
+export interface StmtVisitor<TR> {
   visitTableStmt(stmt: Table): TR;
 
   visitFieldStmt(stmt: Field): TR;
@@ -23,7 +23,7 @@ export class Table extends Stmt {
     this.fields = fields;
   }
 
-  public accept<TR>(visitor: IVisitor<TR>): TR {
+  public accept<TR>(visitor: StmtVisitor<TR>): TR {
     return visitor.visitTableStmt(this);
   }
 
@@ -46,7 +46,7 @@ export class Field extends Stmt {
     this.link = link;
   }
 
-  public accept<TR>(visitor: IVisitor<TR>): TR {
+  public accept<TR>(visitor: StmtVisitor<TR>): TR {
     return visitor.visitFieldStmt(this);
   }
 

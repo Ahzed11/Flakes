@@ -1,29 +1,29 @@
 import { Token } from './token';
 
 export abstract class Expr {
-  public abstract accept<TR>(visitor: IVisitor<TR>): TR;
+  public abstract accept<TR>(visitor: ExprVisitor<TR>): TR;
 }
 
-export interface IVisitor<TR> {
+export interface ExprVisitor<TR> {
   visitLink(expr: Link): TR;
 }
 
 export class Link extends Expr {
-  public readonly TableName: Token;
-  public readonly FieldName: Token;
+  public readonly tableName: Token;
+  public readonly fieldName: Token;
 
   constructor(tableName: Token, fieldName: Token) {
     super();
-    this.TableName = tableName;
-    this.FieldName = fieldName;
+    this.tableName = tableName;
+    this.fieldName = fieldName;
   }
 
-  public accept<TR>(visitor: IVisitor<TR>): TR {
+  public accept<TR>(visitor: ExprVisitor<TR>): TR {
     return visitor.visitLink(this);
   }
 
   public toString(): string {
-    return `${this.TableName.lexeme}.${this.FieldName.lexeme}`;
+    return `${this.tableName.lexeme}.${this.fieldName.lexeme}`;
   }
 }
 
