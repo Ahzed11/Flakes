@@ -1,6 +1,6 @@
 {
   "name": "flakes-lang",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Language and library to create data warehouse diagrams and schemas. ",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
