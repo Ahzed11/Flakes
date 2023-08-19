@@ -20,10 +20,19 @@ export class Parser {
   }
 
   private table(): Table {
-    const tableType = this.consume(TokenType.TableType, "Expected a table type");
-    const tableName = this.consume(TokenType.Identifier, "Expected a table name");
+    const tableType = this.consume(
+      TokenType.TableType,
+      'Expected a table type'
+    );
+    const tableName = this.consume(
+      TokenType.Identifier,
+      'Expected a table name'
+    );
 
-    this.consume(TokenType.LeftBrace, "Expected left brace after the table's name");
+    this.consume(
+      TokenType.LeftBrace,
+      "Expected left brace after the table's name"
+    );
     const block = this.block();
 
     return new Table(tableType, tableName, block);
@@ -41,18 +50,24 @@ export class Parser {
   }
 
   private field(): Field {
-    const fieldType = this.consume(TokenType.FieldType, "Expected field type");
-    const fieldName = this.consume(TokenType.Identifier, "Expected field name");
+    const fieldType = this.consume(TokenType.FieldType, 'Expected field type');
+    const fieldName = this.consume(TokenType.Identifier, 'Expected field name');
     let link = null;
 
     if (this.match(TokenType.RightArrow)) {
-      const tableName = this.consume(TokenType.Identifier, "Expected table name");
-      this.consume(TokenType.Dot, "Expected a dot");
-      const tableField = this.consume(TokenType.Identifier, "Expected table field");
+      const tableName = this.consume(
+        TokenType.Identifier,
+        'Expected table name'
+      );
+      this.consume(TokenType.Dot, 'Expected a dot');
+      const tableField = this.consume(
+        TokenType.Identifier,
+        'Expected table field'
+      );
       link = new Link(tableName, tableField); // You need to define the Expr.Link class
     }
 
-    this.consume(TokenType.Semicolon, "Expected semicolon");
+    this.consume(TokenType.Semicolon, 'Expected semicolon');
 
     return new Field(fieldType, fieldName, link);
   }

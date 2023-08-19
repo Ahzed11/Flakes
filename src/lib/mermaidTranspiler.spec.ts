@@ -5,22 +5,24 @@ import { MermaidTranspiler } from './mermaidTranspiler';
 import { Parser } from './parser';
 
 test('simple', (t) => {
-  const input = 'Fact apport { int id; int date; int measurement; } Dimension date {int id -> apport.date; int month;} Dimension measurement {int id -> apport.measurement; int weight;}';
-  const expect = 'erDiagram\n' +
+  const input =
+    'Fact deposit { int id; int date; int measurement; } Dimension date {int id -> deposit.date; int month;} Dimension measurement {int id -> deposit.measurement; int weight;}';
+  const expect =
+    'erDiagram\n' +
     '\n' +
-    'apport {\n' +
+    'deposit {\n' +
     '\tint id\n' +
     '\tint date\n' +
     '\tint measurement\n' +
     '}\n' +
     '\n' +
-    'date ||--|{ apport:date\n' +
+    'date ||--|{ deposit:date\n' +
     'date {\n' +
     '\tint id\n' +
     '\tint month\n' +
     '}\n' +
     '\n' +
-    'measurement ||--|{ apport:measurement\n' +
+    'measurement ||--|{ deposit:measurement\n' +
     'measurement {\n' +
     '\tint id\n' +
     '\tint weight\n' +
@@ -34,7 +36,8 @@ test('simple', (t) => {
 });
 
 test('harder', (t) => {
-  const input = '\n' +
+  const input =
+    '\n' +
     'Fact purchase {\n' +
     '  int id;\n' +
     '  int item;\n' +
@@ -52,7 +55,8 @@ test('harder', (t) => {
     '  text name;\n' +
     '}\n';
 
-  const expect = 'erDiagram\n' +
+  const expect =
+    'erDiagram\n' +
     '\n' +
     'purchase {\n' +
     '\tint id\n' +

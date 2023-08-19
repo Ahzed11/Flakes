@@ -56,4 +56,3 @@ export class Field extends Stmt {
     return s + ';';
   }
 }
-

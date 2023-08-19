@@ -1,5 +1,5 @@
 export enum TokenType {
-  LeftBrace = "LeftBrace",
+  LeftBrace = 'LeftBrace',
   RightBrace = 'RightBrace',
   Dimension = 'Dimension',
   TableType = 'TableType',
@@ -8,5 +8,5 @@ export enum TokenType {
   Semicolon = 'Semicolon',
   Dot = 'Dot',
   RightArrow = 'RightArrow',
-  Eof = 'Eof'
+  Eof = 'Eof',
 }

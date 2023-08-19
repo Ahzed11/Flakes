@@ -1,6 +1,6 @@
 # Flakes
 
-Language and library to create datawarehouse diagrams and schemas.
+Language and library to create data warehouse diagrams and schemas.
 
 ## Example
 This input
@@ -22,7 +22,7 @@ Dimension item {
   text name;
 }
 ```
-will produce this ouptut
+will produce this output
 ```mermaid
 erDiagram
 

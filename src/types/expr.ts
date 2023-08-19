@@ -26,4 +26,3 @@ export class Link extends Expr {
     return `${this.tableName.lexeme}.${this.fieldName.lexeme}`;
   }
 }
-

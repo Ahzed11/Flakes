@@ -1,12 +1,14 @@
 import { Expr, ExprVisitor, Link } from '../types/expr';
 import { Field, Stmt, StmtVisitor, Table } from '../types/stmt';
 
-export class MermaidTranspiler implements StmtVisitor<string>, ExprVisitor<void> {
+export class MermaidTranspiler
+  implements StmtVisitor<string>, ExprVisitor<void>
+{
   currentLinks: Link[];
 
-  public generates(stmts: Stmt[]): string {
+  public generates(statements: Stmt[]): string {
     let result = 'erDiagram\n\n';
-    for (const stmt of stmts) {
+    for (const stmt of statements) {
       result += this.generate(stmt);
     }
     return result;
