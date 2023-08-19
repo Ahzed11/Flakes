@@ -1,4 +1,5 @@
 import test from "ava";
+
 import { Lexer } from './lexer';
 import { Parser } from './parser';
 test("simple", (t) => {
