@@ -9,22 +9,12 @@ export class Lexer {
   private start = 0;
   private current = 0;
 
-  public tokensAsString(): string {
-    let str = "";
-    for (const token of this.tokens) {
-      str += token.toString() + "\n"
-    }
-    return str;
+  public constructor(source: string) {
+    this.source = source;
+    this.scanSymbols();
   }
 
-  public scanSymbols(source: string) {
-    this.source = source;
-    this.exceptions = [];
-    this.tokens = [];
-    this.line = 1;
-    this.start = 0;
-    this.current = 0;
-
+  public scanSymbols() {
     while (!this.isAtEnd()) {
       this.start = this.current;
       try {
