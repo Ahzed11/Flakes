@@ -5,30 +5,31 @@ import { MermaidTranspiler } from './mermaidTranspiler';
 import { Parser } from './parser';
 
 test('simple', (t) => {
-  const input =
-    'Fact deposit { int id; int date; int measurement; } Dimension date {int id -> deposit.date; int month;} Dimension measurement {int id -> deposit.measurement; int weight;}';
+  const e =
+    'Fact deposit { int id; int date -> date.id; int measurement -> measurement.id; } Dimension date {int id; int month;} Dimension measurement {int id; int weight;}';
+
   const expect =
     'erDiagram\n' +
     '\n' +
+    'deposit }|--|| date:"id"\n' +
+    'deposit }|--|| measurement:"id"\n' +
     'deposit {\n' +
     '\tint id\n' +
     '\tint date\n' +
     '\tint measurement\n' +
     '}\n' +
     '\n' +
-    'date ||--|{ deposit:date\n' +
     'date {\n' +
     '\tint id\n' +
     '\tint month\n' +
     '}\n' +
     '\n' +
-    'measurement ||--|{ deposit:measurement\n' +
     'measurement {\n' +
     '\tint id\n' +
     '\tint weight\n' +
     '}\n\n';
 
-  const lexer = new Lexer(input);
+  const lexer = new Lexer(e);
   const parser = new Parser(lexer.tokens);
   const transpilation = new MermaidTranspiler().generates(parser.statements);
 
@@ -37,27 +38,28 @@ test('simple', (t) => {
 
 test('harder', (t) => {
   const input =
-    '\n' +
     'Fact purchase {\n' +
     '  int id;\n' +
-    '  int item;\n' +
+    '  int item -> item.id;\n' +
     '  int price;\n' +
-    '  int customer;\n' +
+    '  int customer -> customer.id;\n' +
     '}\n' +
     '\n' +
     'Dimension customer {\n' +
-    '  int id -> purchase.customer;\n' +
+    '  int id;\n' +
     '  text name;\n' +
     '}\n' +
     '\n' +
     'Dimension item {\n' +
-    '  int id -> purchase.item;\n' +
+    '  int id;\n' +
     '  text name;\n' +
     '}\n';
 
   const expect =
     'erDiagram\n' +
     '\n' +
+    'purchase }|--|| item:"id"\n' +
+    'purchase }|--|| customer:"id"\n' +
     'purchase {\n' +
     '\tint id\n' +
     '\tint item\n' +
@@ -65,13 +67,11 @@ test('harder', (t) => {
     '\tint customer\n' +
     '}\n' +
     '\n' +
-    'customer ||--|{ purchase:customer\n' +
     'customer {\n' +
     '\tint id\n' +
     '\ttext name\n' +
     '}\n' +
     '\n' +
-    'item ||--|{ purchase:item\n' +
     'item {\n' +
     '\tint id\n' +
     '\ttext name\n' +

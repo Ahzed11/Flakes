@@ -42,9 +42,9 @@ export class MermaidTranspiler
     }
 
     let linkString = '';
-    if (stmt.tableType.lexeme === 'Dimension') {
+    if (stmt.tableType.lexeme === 'Fact') {
       for (const link of this.currentLinks) {
-        linkString = `${stmt.tableName.lexeme} ||--|{ ${link.tableName.lexeme}:${link.fieldName.lexeme}\n`;
+        linkString += `${stmt.tableName.lexeme} }|--|| ${link.tableName.lexeme}:"${link.fieldName.lexeme}"\n`;
       }
     }
 

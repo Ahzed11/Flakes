@@ -64,7 +64,7 @@ export class Parser {
         TokenType.Identifier,
         'Expected table field'
       );
-      link = new Link(tableName, tableField); // You need to define the Expr.Link class
+      link = new Link(tableName, tableField);
     }
 
     this.consume(TokenType.Semicolon, 'Expected semicolon');
