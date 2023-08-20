@@ -4,12 +4,12 @@ import { Lexer } from './lexer';
 import { Parser } from './parser';
 test('simple', (t) => {
   const input =
-    'Fact deposit { int id; int date; int weight; } Dimension date {int month;}';
+    'Fact deposit { int id; int date; int weight; //in kilos\n} Dimension date {int month;}';
   const expect =
     'Fact deposit {\n' +
     '\tint id;\n' +
     '\tint date;\n' +
-    '\tint weight;\n' +
+    '\tint weight;//in kilos\n' +
     '},Dimension date {\n' +
     '\tint month;\n' +
     '}';

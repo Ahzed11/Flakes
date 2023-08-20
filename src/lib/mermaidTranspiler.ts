@@ -26,7 +26,13 @@ export class MermaidTranspiler
 
   visitFieldStmt(stmt: Field): string {
     this.evaluate(stmt.link);
-    return `\t${stmt.type.lexeme} ${stmt.name.lexeme}\n`;
+
+    const commentString =
+      stmt.comment === null
+        ? ''
+        : ` "${stmt.comment.lexeme.replace(/(^(\/\/|\/\*)|(\*\/)$)/gm, '')}"`;
+
+    return `\t${stmt.type.lexeme} ${stmt.name.lexeme}${commentString}\n`;
   }
 
   visitLink(expr: Link): void {

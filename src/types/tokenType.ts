@@ -9,4 +9,5 @@ export enum TokenType {
   Dot = 'Dot',
   RightArrow = 'RightArrow',
   Eof = 'Eof',
+  Comment = 'Comment',
 }

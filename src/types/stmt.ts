@@ -7,7 +7,6 @@ export abstract class Stmt {
 
 export interface StmtVisitor<TR> {
   visitTableStmt(stmt: Table): TR;
-
   visitFieldStmt(stmt: Field): TR;
 }
 
@@ -38,12 +37,14 @@ export class Field extends Stmt {
   public readonly type: Token;
   public readonly name: Token;
   public readonly link: Link;
+  public readonly comment: Token;
 
-  constructor(type: Token, name: Token, link: Link) {
+  constructor(type: Token, name: Token, link: Link, comment: Token) {
     super();
     this.type = type;
     this.name = name;
     this.link = link;
+    this.comment = comment;
   }
 
   public accept<TR>(visitor: StmtVisitor<TR>): TR {
@@ -53,6 +54,8 @@ export class Field extends Stmt {
   public toString(): string {
     let s = `${this.type.lexeme} ${this.name.lexeme}`;
     if (this.link !== null) s += ` -> ${this.link}`;
-    return s + ';';
+    s += ';';
+    s += this.comment === null ? '' : this.comment.lexeme;
+    return s;
   }
 }

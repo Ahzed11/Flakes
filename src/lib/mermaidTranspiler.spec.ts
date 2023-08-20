@@ -6,7 +6,7 @@ import { Parser } from './parser';
 
 test('simple', (t) => {
   const e =
-    'Fact deposit { int id; int date -> date.id; int measurement -> measurement.id; } Dimension date {int id; int month;} Dimension measurement {int id; int weight;}';
+    'Fact deposit { int id; int date -> date.id; int measurement -> measurement.id; } Dimension date {int id; int month;} Dimension measurement {int id; int weight; //in kilos\n}';
 
   const expect =
     'erDiagram\n' +
@@ -26,7 +26,7 @@ test('simple', (t) => {
     '\n' +
     'measurement {\n' +
     '\tint id\n' +
-    '\tint weight\n' +
+    '\tint weight "in kilos"\n' +
     '}\n\n';
 
   const lexer = new Lexer(e);
@@ -38,11 +38,15 @@ test('simple', (t) => {
 
 test('harder', (t) => {
   const input =
+    '//hi \n' +
     'Fact purchase {\n' +
     '  int id;\n' +
     '  int item -> item.id;\n' +
     '  int price;\n' +
-    '  int customer -> customer.id;\n' +
+    '  int customer -> customer.id; /*\n' +
+    'this\n' +
+    'is\n' +
+    'a comment\n*/' +
     '}\n' +
     '\n' +
     'Dimension customer {\n' +
@@ -64,7 +68,7 @@ test('harder', (t) => {
     '\tint id\n' +
     '\tint item\n' +
     '\tint price\n' +
-    '\tint customer\n' +
+    '\tint customer "\nthis\nis\na comment\n"\n' +
     '}\n' +
     '\n' +
     'customer {\n' +

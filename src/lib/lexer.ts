@@ -49,6 +49,15 @@ export class Lexer {
           throw new Error('Unexpected character: ' + c);
         }
         break;
+      case '/':
+        if (this.match('/')) {
+          this.singleLineComment();
+        } else if (this.match('*')) {
+          this.multiLineComment();
+        } else {
+          throw new Error('Unexpected character: ' + c);
+        }
+        break;
       case '\n':
         ++this.line;
         break;
@@ -72,9 +81,16 @@ export class Lexer {
   private peek(): string {
     return this.isAtEnd() ? '\0' : this.source.charAt(this.current);
   }
-  private addToken(tokenType: TokenType) {
+
+  private peekNext(): string {
+    if (this.current + 1 >= this.source.length) return '\0';
+
+    return this.source.charAt(this.current + 1);
+  }
+
+  private addToken(tokenType: TokenType, line: number = this.line) {
     const lexeme = this.source.substring(this.start, this.current);
-    this.tokens.push(new Token(tokenType, lexeme, this.line));
+    this.tokens.push(new Token(tokenType, lexeme, line));
   }
 
   private match(expected: string): boolean {
@@ -120,6 +136,32 @@ export class Lexer {
     }
 
     this.addToken(tokenType);
+  }
+
+  private singleLineComment() {
+    while (this.peek() !== '\n' && !this.isAtEnd()) {
+      this.advance();
+    }
+    this.addToken(TokenType.Comment);
+  }
+
+  private multiLineComment() {
+    const line = this.line;
+    while (
+      (this.peek() !== '*' || this.peekNext() !== '/') &&
+      !this.isAtEnd()
+    ) {
+      if (this.peek() == '\n') {
+        ++this.line;
+      }
+      this.advance();
+    }
+    if (!this.isAtEnd()) {
+      this.advance();
+      this.advance();
+    }
+
+    this.addToken(TokenType.Comment, line);
   }
 
   private isAtEnd(): boolean {

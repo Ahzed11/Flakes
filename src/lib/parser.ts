@@ -15,6 +15,11 @@ export class Parser {
 
   private parse() {
     while (!this.isAtEnd()) {
+      if (this.check(TokenType.Comment)) {
+        this.advance();
+        continue;
+      }
+
       this.statements.push(this.table());
     }
   }
@@ -53,6 +58,7 @@ export class Parser {
     const fieldType = this.consume(TokenType.FieldType, 'Expected field type');
     const fieldName = this.consume(TokenType.Identifier, 'Expected field name');
     let link = null;
+    let comment = null;
 
     if (this.match(TokenType.RightArrow)) {
       const tableName = this.consume(
@@ -69,7 +75,11 @@ export class Parser {
 
     this.consume(TokenType.Semicolon, 'Expected semicolon');
 
-    return new Field(fieldType, fieldName, link);
+    if (this.check(TokenType.Comment)) {
+      comment = this.advance();
+    }
+
+    return new Field(fieldType, fieldName, link, comment);
   }
 
   private match(...types: TokenType[]): boolean {
